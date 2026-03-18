@@ -6,7 +6,7 @@ namespace Tests\CodingStandard;
 
 class SampleSpec
 {
-    function foo(): void
+    public function foo(): void
     {
     }
 }
