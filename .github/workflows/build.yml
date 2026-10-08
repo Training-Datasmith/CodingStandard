@@ -80,9 +80,11 @@ jobs:
             if [[ "${{ matrix.ecs }}" != 13.* ]]; then
               PATHS+=(tests/Annotations.php)
             fi
-            while IFS= read -r file; do
-              PATHS+=("$file")
-            done < <(find tests -maxdepth 1 -name '*Test.php')
+            if [[ "${{ matrix.ecs }}" != 13.* ]]; then
+              while IFS= read -r file; do
+                PATHS+=("$file")
+              done < <(find tests -maxdepth 1 -name '*Test.php')
+            fi
             vendor/bin/ecs check --config ecs.php "${PATHS[@]}"
 
       -
