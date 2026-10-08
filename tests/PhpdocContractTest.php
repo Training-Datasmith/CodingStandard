@@ -10,8 +10,6 @@ final class PhpdocContractTest extends EcsTestCase
 {
     public function testForbiddenAnnotationsAreRemoved(): void
     {
-        $this->skipWhenEcs13OnPhpBelow840();
-
         $path = $this->writeTempFixture(
             'ForbiddenAnnotations.php',
             <<<'PHP'
@@ -57,7 +55,6 @@ PHP,
 
     public function testGivenWhenThenOrder(): void
     {
-        $this->skipWhenEcs13OnPhpBelow840();
         $this->requirePhpdocOrderConfigurable();
 
         $path = $this->writeTempFixture(
@@ -109,7 +106,6 @@ PHP,
 
     public function testGivenWhenThenAreOneGroup(): void
     {
-        $this->skipWhenEcs13OnPhpBelow840();
         $this->requirePhpdocSeparationConfigurable();
 
         $path = $this->writeTempFixture(
@@ -166,7 +162,6 @@ PHP,
 
     public function testParamAndReturnGroups(): void
     {
-        $this->skipWhenEcs13OnPhpBelow840();
         $this->requirePhpdocSeparationConfigurable();
 
         $path = $this->writeTempFixture(
@@ -197,17 +192,19 @@ class ParamReturnGroups
 PHP,
         );
 
-        $fixed = self::$runner->fix([$path]);
-        $contents = file_get_contents($path);
-        self::assertStringContainsString('@param int $bar', $contents);
-        self::assertStringContainsString('@phpstan-param string $baz', $contents);
-        self::assertStringNotContainsString("@param int \$bar\n     * @phpstan-param", $contents);
+        $fix = self::$runner->fix([$path]);
+        \Tests\CodingStandard\Support\EcsRunner::assertNoPhpDiagnostics($fix);
+
+        $contents = (string) file_get_contents($path);
+        self::assertStringContainsString("@param int \$bar\n     * @phpstan-param string \$baz", $contents);
+        self::assertStringContainsString('@psalm-param string $baz', $contents);
+        self::assertStringContainsString("@psalm-param string \$baz\n     *\n     * @return string[]", $contents);
+
         $this->fixThenAssertClean($path);
     }
 
     public function testVarGroup(): void
     {
-        $this->skipWhenEcs13OnPhpBelow840();
         $this->requirePhpdocSeparationConfigurable();
 
         $path = $this->writeTempFixture(
@@ -266,7 +263,6 @@ PHP,
 
     public function testTemplateGroup(): void
     {
-        $this->skipWhenEcs13OnPhpBelow840();
         $this->requirePhpdocSeparationConfigurable();
 
         $path = $this->writeTempFixture(

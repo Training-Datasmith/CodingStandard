@@ -392,8 +392,6 @@ PHP,
 
     public function testPropertyVarDropsNameAndIsOneLine(): void
     {
-        $this->skipWhenEcs13OnPhpBelow840();
-
         $path = $this->writeTempFixture(
             'PropertyVar.php',
             <<<'PHP'
@@ -433,8 +431,6 @@ PHP,
 
     public function testInlineDocMustMatchAssignedVariable(): void
     {
-        $this->skipWhenEcs13OnPhpBelow840();
-
         $path = $this->writeTempFixture(
             'InlineDoc.php',
             <<<'PHP'

@@ -10,10 +10,13 @@ Incompatible with PHP_CodeSniffer 4.x due to a changed method signature in PHPCS
 Fatal error: Declaration of ... must be compatible with ...
 ```
 
-## `slevomat/coding-standard: >=8.16` on PHP 8.0
+## Slevomat vs PHP_CodeSniffer bundled in Easy Coding Standard
 
-Slevomat 8.16+ references the `T_TYPE_OPEN_PARENTHESIS` tokenizer constant, which exists only in PHP 8.4+. On PHP 8.0–8.3, ECS can fatally error while checking files with `@param` docblocks. This package requires `slevomat/coding-standard` `^8.0,<8.16` for PHP `^8.0` compatibility.
+Easy Coding Standard ships its own PHP_CodeSniffer copy. Slevomat Coding Standard references PHPCS tokenizer constants that differ between PHPCS 3.x and 4.x:
 
-## ECS 13 on PHP 8.0
+- **Slevomat 8.16+** uses `T_TYPE_OPEN_PARENTHESIS` (`PHPCS_T_TYPE_OPEN_PARENTHESIS`), added in PHP_CodeSniffer 3.8+. ECS **10** and **11** bundle an older PHPCS without that constant, so Slevomat 8.16+ can fatally error with `Undefined constant "T_TYPE_OPEN_PARENTHESIS"`.
+- **Slevomat before 8.16** uses `T_ARRAY_HINT` (`PHPCS_T_ARRAY_HINT`), which was deprecated in PHPCS 3.3.0 and **removed in PHPCS 4.0**. ECS **13** bundles PHPCS 4.x, so Slevomat &lt;8.16 can fatally error with `Undefined constant "T_ARRAY_HINT"`.
 
-Easy Coding Standard 13 bundles PHP_CodeSniffer 4.x tooling that references tokenizer constants (for example `T_ARRAY_HINT`) not defined on PHP 8.0. Running ECS 13 against `tests/Annotations.php` on PHP 8.0 can therefore raise a system error even when the Sylius preset itself is valid. Use PHP 8.4+ with ECS 13, or stay on ECS 10–12 for PHP 8.0 CI.
+These are PHP_CodeSniffer token constants, not PHP runtime tokenizer constants.
+
+CI pins Slevomat per ECS matrix leg (for example 8.15.x on ECS 10/11 and 8.16+ on ECS 12/13) so each leg uses a Slevomat release compatible with the bundled PHPCS. `composer.json` keeps `slevomat/coding-standard` at `^8.0`; consumers must resolve a compatible Slevomat version for their ECS major release.

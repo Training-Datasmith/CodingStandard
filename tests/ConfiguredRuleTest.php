@@ -625,14 +625,6 @@ PHP,
      */
     public function testConfiguredRule(string $input, string $expected): void
     {
-        if (PHP_VERSION_ID < 80400 && self::$capabilities['ecs_major'] >= 13) {
-            if (str_contains($this->getName(), 'nullLastNoAlphaSort') || str_contains($this->getName(), 'mixedTagKept')) {
-                $this->markTestSkipped(
-                    'ECS 13 on PHP 8.0 cannot reliably apply phpdoc fixers (see CONFLICTS.md).',
-                );
-            }
-        }
-
         $path = $this->writeTempFixture('Configured.php', $input);
         $this->fixThenAssertContents($path, $expected);
     }

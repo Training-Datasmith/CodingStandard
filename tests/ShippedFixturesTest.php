@@ -21,9 +21,7 @@ final class ShippedFixturesTest extends EcsTestCase
             $root . '/tests/Generics.php',
         ];
 
-        if (self::$capabilities['ecs_major'] < 13) {
-            $paths[] = $root . '/tests/Annotations.php';
-        }
+        $paths[] = $root . '/tests/Annotations.php';
 
         $result = self::$runner->check($paths);
         EcsRunner::assertNoPhpDiagnostics($result);

@@ -43,15 +43,6 @@ abstract class EcsTestCase extends TestCase
         return $path;
     }
 
-    protected function skipWhenEcs13OnPhpBelow840(): void
-    {
-        if (self::$capabilities['ecs_major'] >= 13 && PHP_VERSION_ID < 80400) {
-            $this->markTestSkipped(
-                'ECS 13 bundles PHPCS 4.x tokenizer constants that are unavailable on PHP 8.0 (see CONFLICTS.md).',
-            );
-        }
-    }
-
     protected function requirePhpdocOrderConfigurable(): void
     {
         if (!self::$capabilities['phpdoc_order_configurable']) {

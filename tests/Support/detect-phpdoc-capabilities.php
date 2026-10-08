@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+/**
+ * @deprecated Capability detection runs through ECS (see cap-ecs.php and EcsCapability).
+ */
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 use Composer\InstalledVersions;
