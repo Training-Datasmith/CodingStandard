@@ -68,7 +68,22 @@ jobs:
 
       -
         name: Run test
-        run: vendor/bin/ecs check --config ecs.php tests ecs.php
+        run: |
+            PATHS=(
+              ecs.php
+              tests/Sample.php
+              tests/SampleSpec.php
+              tests/FooBar.php
+              tests/BehatContext.php
+              tests/Generics.php
+            )
+            if [[ "${{ matrix.ecs }}" != 13.* ]]; then
+              PATHS+=(tests/Annotations.php)
+            fi
+            while IFS= read -r file; do
+              PATHS+=("$file")
+            done < <(find tests -maxdepth 1 -name '*Test.php')
+            vendor/bin/ecs check --config ecs.php "${PATHS[@]}"
 
       -
         name: Run PHPUnit
