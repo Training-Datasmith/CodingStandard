@@ -11,12 +11,15 @@
     ],
     "require": {
         "php": "^8.0",
-        "slevomat/coding-standard": "^8.0",
-        "symplify/easy-coding-standard": "^10.0 || ^11.0 || ^12.0 || ^13.0"
+        "slevomat/coding-standard": "^8.0,<8.16",
+        "symplify/easy-coding-standard": "13.*"
     },
     "conflict": {
         "slevomat/coding-standard": ">=8.23",
         "symplify/package-builder": "^8.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
     },
     "autoload-dev": {
         "psr-4": {

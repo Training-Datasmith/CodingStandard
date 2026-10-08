@@ -71,9 +71,13 @@ jobs:
         run: vendor/bin/ecs check --config ecs.php tests ecs.php
 
       -
+        name: Run PHPUnit
+        run: vendor/bin/phpunit --configuration phpunit.xml.dist --order-by=random --colors=never
+
+      -
         name: "Check exported files"
         run: |
-            EXPECTED="LICENSE,README.md,composer.json,ecs.php"
+            EXPECTED="CONFLICTS.md,LICENSE,README.md,composer.json,ecs.php"
             CURRENT="$(
                 git archive HEAD \
                     | tar --list \
